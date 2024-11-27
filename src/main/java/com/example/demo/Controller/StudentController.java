@@ -1,4 +1,4 @@
-package com.example.demo.Controller;
+package com.example.demo.controller;
 
 import com.example.demo.entity.Classes;
 import com.example.demo.service.ClassService;
@@ -22,7 +22,7 @@ public class StudentController {
     public String getClasses(Model model) {
         List<Classes> classes = classService.getAllClasses(); 
         model.addAttribute("classes", classes); 
-        return "studentclasses"; 
+        return "studentClasses";
     }
 
     
@@ -38,7 +38,7 @@ public class StudentController {
 
     @GetMapping("/studentbankInfo")
     public String showHelpPage() {
-        return "studentbankInfo";
+        return "studentBankInfo";
     }
     
 }

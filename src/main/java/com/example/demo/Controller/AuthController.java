@@ -1,4 +1,4 @@
-package com.example.demo.Controller;
+package com.example.demo.controller;
 
 import com.example.demo.dto.UserDto;
 import com.example.demo.entity.User;
@@ -43,7 +43,7 @@ public class AuthController {
                                Model model) {
         User existing = userService.findByEmail(user.getEmail());
         if (existing != null) {
-            result.rejectValue("email", null, "There is already an account registered with that email");
+            result.rejectValue("email", "101", "There is already an account registered with that email");
         }
         if (result.hasErrors()) {
             model.addAttribute("user", user);

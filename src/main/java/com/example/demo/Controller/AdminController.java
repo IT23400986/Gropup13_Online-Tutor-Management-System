@@ -1,4 +1,4 @@
-package com.example.demo.Controller;
+package com.example.demo.controller;
 
 import com.example.demo.dto.UserDto;
 import com.example.demo.entity.Classes;
@@ -44,7 +44,7 @@ public class AdminController {
     public String getClasses(Model model) {
         List<Classes> classes = classService.getAllClasses(); 
         model.addAttribute("classes", classes); 
-        return "adminclasses"; 
+        return "adminClasses";
     }
 
     @PostMapping("/delete")
@@ -53,7 +53,7 @@ public class AdminController {
             userService.deleteUserByEmail(email); 
         } catch (RuntimeException e) {
            
-            return "userList?error=" + e.getMessage();  
+            return "userList";
         }
         return "deleteSuccess";  
     }

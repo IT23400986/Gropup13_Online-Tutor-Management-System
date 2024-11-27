@@ -1,7 +1,6 @@
-package com.example.demo.Controller;
+package com.example.demo.controller;
 
 import com.example.demo.entity.User;
-import com.example.demo.security.CustomUserDetailsService;
 import com.example.demo.service.UserService;
 
 import org.springframework.http.ResponseEntity;
@@ -12,20 +11,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
-
 @Controller
 public class ProfileController {
 
     private final UserService userService;
-    @SuppressWarnings("unused")
-    private final CustomUserDetailsService customUserDetailsService;
 
 
 
-    public ProfileController(UserService userService, CustomUserDetailsService customUserDetailsService) {
+    public ProfileController(UserService userService) {
         this.userService = userService;
-        this.customUserDetailsService = customUserDetailsService;
     }
 
     private User getCurrentUser(Authentication authentication) {
@@ -33,9 +27,9 @@ public class ProfileController {
         return userService.findByEmail(email);
     }
 
-    @GetMapping("/student/studentprofile")
+    @GetMapping("/student/profile")
     @PreAuthorize("hasRole('STUDENT')")
-    public String viewProfileStudent(Model model, Principal principal) {
+    public String viewProfileStudent(Model model) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName(); 
@@ -45,19 +39,14 @@ public class ProfileController {
         // Get currently logged in user id()
         System.out.println(user.getId());
 
-        if (user != null) {
-            
-            model.addAttribute("user", user);
-        } else {
-            model.addAttribute("error", "User not found!");
-        }
+        model.addAttribute("user", user);
 
         return "studentProfile";
     }
 
-    @GetMapping("/student/studentprofile/edit")
-    @PreAuthorize("hasRole('STUDENT') or hasRole('TEACHER') or hasRole('ADMIN') or hasRole('FINANCE')")
-    public String showEditProfileForm(Model model, Authentication authentication) {
+    @GetMapping("/student/profile/edit")
+    @PreAuthorize("hasRole('STUDENT')")
+    public String showEditStudentProfileForm(Model model, Authentication authentication) {
         User currentUser = getCurrentUser(authentication);
 
         if (currentUser != null) {
@@ -66,18 +55,149 @@ public class ProfileController {
             model.addAttribute("error", "User not found!");
         }
 
-        return "editProfile"; // A Thymeleaf template for the edit profile page
+        return "editStudentProfile"; // A Thymeleaf template for the edit profile page
     }
 
-    @PutMapping("/student/studentprofile/edit")
-    public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User updatedUser) {
+    @PutMapping("/student/profile/edit")
+    public ResponseEntity<User> updateStudentUser(@PathVariable Long id, @RequestBody User updatedUser) {
         User user = userService.updateUser(id, updatedUser);
         return ResponseEntity.ok(user);
     }
 
-    @PostMapping("/student/studentprofile/edit")
-    @PreAuthorize("hasRole('STUDENT') or hasRole('TEACHER') or hasRole('ADMIN') or hasRole('FINANCE')")
-    public String updateProfile(@ModelAttribute("user") User updatedUser, Authentication authentication, Model model) {
+    @PostMapping("/student/profile/edit")
+    @PreAuthorize("hasRole('STUDENT')")
+    public String updateStudentProfile(@ModelAttribute("user") User updatedUser, Authentication authentication, Model model) {
+        getCurrentUser(updatedUser, authentication, model);
+
+        return "studentProfile"; // Redirect to the profile page
+    }
+
+    @GetMapping("/teacher/profile")
+    @PreAuthorize("hasRole('TEACHER')")
+    public String viewProfileTeacher(Model model) {
+
+        getAuthentication(model);
+
+        return "teacherProfile";
+    }
+
+    private void getAuthentication(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+
+        User user = userService.findByEmail(email);
+
+        if (user != null) {
+
+            model.addAttribute("user", user);
+        } else {
+            model.addAttribute("error", "User not found!");
+        }
+    }
+
+    @GetMapping("/teacher/profile/edit")
+    @PreAuthorize("hasRole('TEACHER')")
+    public String showEditTeacherProfileForm(Model model, Authentication authentication) {
+        User currentUser = getCurrentUser(authentication);
+
+        if (currentUser != null) {
+            model.addAttribute("user", currentUser);
+        } else {
+            model.addAttribute("error", "User not found!");
+        }
+
+        return "editTeacherProfile"; // A Thymeleaf template for the edit profile page
+    }
+
+    @PutMapping("/teacher/profile/edit")
+    public ResponseEntity<User> updateTeacherUser(@PathVariable Long id, @RequestBody User updatedUser) {
+        User user = userService.updateUser(id, updatedUser);
+        return ResponseEntity.ok(user);
+    }
+
+    @PostMapping("/teacher/profile/edit")
+    @PreAuthorize("hasRole('TEACHER')")
+    public String updateTeacherProfile(@ModelAttribute("user") User updatedUser, Authentication authentication, Model model) {
+        getCurrentUser(updatedUser, authentication, model);
+
+        return "teacherProfile"; // Redirect to the same page or a success page
+    }
+
+    @GetMapping("/admin/profile")
+    @PreAuthorize("hasRole('ADMIN')")
+    public String viewProfileAdmin(Model model) {
+
+        getAuthentication(model);
+
+        return "adminProfile";
+    }
+
+    @GetMapping("/admin/profile/edit")
+    @PreAuthorize("hasRole('ADMIN')")
+    public String showEditAdminProfileForm(Model model, Authentication authentication) {
+        User currentUser = getCurrentUser(authentication);
+
+        if (currentUser != null) {
+            model.addAttribute("user", currentUser);
+        } else {
+            model.addAttribute("error", "User not found!");
+        }
+
+        return "editAdminProfile"; // A Thymeleaf template for the edit profile page
+    }
+
+    @PutMapping("/admin/profile/edit")
+    public ResponseEntity<User> updateAdminUser(@PathVariable Long id, @RequestBody User updatedUser) {
+        User user = userService.updateUser(id, updatedUser);
+        return ResponseEntity.ok(user);
+    }
+
+    @PostMapping("/admin/profile/edit")
+    @PreAuthorize("hasRole('ADMIN')")
+    public String updateAdminProfile(@ModelAttribute("user") User updatedUser, Authentication authentication, Model model) {
+        getCurrentUser(updatedUser, authentication, model);
+
+        return "adminProfile"; // Redirect to the profile page
+    }
+
+    @GetMapping("/finance/profile")
+    @PreAuthorize("hasRole('FINANCE')")
+    public String viewProfileFinance(Model model) {
+
+        getAuthentication(model);
+
+        return "financeProfile";
+    }
+
+    @GetMapping("/finance/profile/edit")
+    @PreAuthorize("hasRole('FINANCE')")
+    public String showEditFinanceProfileForm(Model model, Authentication authentication) {
+        User currentUser = getCurrentUser(authentication);
+
+        if (currentUser != null) {
+            model.addAttribute("user", currentUser);
+        } else {
+            model.addAttribute("error", "User not found!");
+        }
+
+        return "editFinanceProfile"; // A Thymeleaf template for the edit profile page
+    }
+
+    @PutMapping("/finance/profile/edit")
+    public ResponseEntity<User> updateFinanceUser(@PathVariable Long id, @RequestBody User updatedUser) {
+        User user = userService.updateUser(id, updatedUser);
+        return ResponseEntity.ok(user);
+    }
+
+    @PostMapping("/finance/profile/edit")
+    @PreAuthorize("hasRole('FINANCE')")
+    public String updateFinanceProfile(@ModelAttribute("user") User updatedUser, Authentication authentication, Model model) {
+        getCurrentUser(updatedUser, authentication, model);
+
+        return "financeProfile"; // Redirect to the profile page
+    }
+
+    private void getCurrentUser(@ModelAttribute("user") User updatedUser, Authentication authentication, Model model) {
         User currentUser = getCurrentUser(authentication);
 
         if (currentUser != null) {
@@ -94,65 +214,5 @@ public class ProfileController {
         } else {
             model.addAttribute("error", "User not found!");
         }
-
-        return "studentProfile"; // Redirect to the same page or a success page
-    }
-
-    @GetMapping("/teacher/teacherprofile")
-    @PreAuthorize("hasRole('TEACHER')")
-    public String viewProfileTeacher(Model model) {
-
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String email = authentication.getName();
-
-        User user = userService.findByEmail(email);
-
-        if (user != null) {
-        
-            model.addAttribute("user", user);
-        } else {
-            model.addAttribute("error", "User not found!");
-        }
-
-        return "teacherprofile";
-    }
-
-    @GetMapping("/admin/adminprofile")
-    @PreAuthorize("hasRole('ADMIN')")
-    public String viewProfileAdmin(Model model) {
-    
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String email = authentication.getName(); 
-
-        
-        User user = userService.findByEmail(email);
-
-        if (user != null) {
-            
-            model.addAttribute("user", user);
-        } else {
-            model.addAttribute("error", "User not found!");
-        }
-
-        return "adminprofile"; 
-    }
-
-    @GetMapping("/finance/financeprofile")
-    @PreAuthorize("hasRole('FINANCE')")
-    public String viewProfileFinance(Model model) {
-       
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String email = authentication.getName();
-
-        User user = userService.findByEmail(email);
-
-
-        if (user != null) {
-            model.addAttribute("user", user);
-        } else {
-            model.addAttribute("error", "User not found!");
-        }
-
-        return "financeProfile";
     }
 }

@@ -1,4 +1,4 @@
-package com.example.demo.security;
+package com.example.demo.custom;
 
 import com.example.demo.entity.Role;
 import com.example.demo.entity.User;
