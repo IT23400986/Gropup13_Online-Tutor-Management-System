@@ -12,12 +12,12 @@
         <!-- Sidebar -->
         <aside class="sidebar">
             <div class="logo">TUTORMATE</div>
-            <div class="login-text">Admin Login</div>
+            <div class="login-text">Student Login</div>
             <nav class="nav">
-                <a th:href="@{/admin/adminDashboard}">Dashboard</a>
-                <a th:href="@{/admin/adminprofile}">My Profile</a>
-                <a th:href="@{/admin/userList}">View Users List</a>
+                <a th:href="@{/student/studentDashboard}">Dashboard</a>
                 <a class="active">Classes</a>
+                <a th:href="@{/student/studentbankInfo}">Payment Info</a>
+                <a th:href="@{/student/profile}">My Profile</a>
                 <a th:href="@{/logout}">Logout</a>
             </nav>
         </aside>
@@ -25,7 +25,7 @@
         <main class="main-content">
             <!-- Header -->
             <header class="header">
-                <h1>All the available Classes</h1>
+                <h1>Available Classes</h1>
             </header>
             <!-- Content -->
             <section class="content">
@@ -37,11 +37,17 @@
                             <h3 th:text="${class.name}">Class Title</h3>
                         </div>
                         <div class="card-body">
-                            <!-- <p><strong>Teacher:</strong> <span th:text="${class.teacher}">Teacher Name</span></p> -->
                             <p><strong>Subject: </strong> <span th:text="${class.description}">Subject</span></p>
                             <p><strong>Fee: </strong> <span th:text="${class.fee}">Fee</span> LKR</p>
                             <p><strong>Duration: </strong> <span th:text="${class.duration}">Duration</span> hrs</p>
-                            <!-- <p><strong>Payment Scheme:</strong> <span th:text="${class.paymentScheme}">Payment Scheme</span></p> -->
+                            <!-- "Enroll Me" Button -->
+                            <div class="card-footer">
+                                <!-- <form th:action="@{/student/enroll/request}" method="post"> -->
+                                <form th:action="@{/student/enroll}" method="post">
+                                    <input type="hidden" name="classId" th:value="${class.id}" />
+                                    <button type="submit" class="enroll-button">Enroll Me</button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>

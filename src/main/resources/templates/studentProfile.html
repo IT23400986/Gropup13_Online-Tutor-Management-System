@@ -69,7 +69,7 @@
                     <p>Email: <span th:text="${user.email}"></span></p>
                     <p>Phone no: <span th:text="${user.phone}"></span></p>
                     <p>Bio: <span th:text="${user.bio}"></span></p>
-                    <button class="edit-button" th:onclick="|window.location='@{/student/studentprofile/edit}'|">Edit Profile</button>
+                    <button class="edit-button" th:onclick="|window.location='@{/student/profile/edit}'|">Edit Profile</button>
                 </div>
                 
                 <div class="profile-info" th:if="${error != null}">

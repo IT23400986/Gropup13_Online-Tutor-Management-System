@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css?family=Lilita+One&display=swap" rel="stylesheet" />
-    <title>User Profile</title>
+    <title>Upload Payment Proof</title>
     <style>
         body {
             font-family: 'Lilita One', sans-serif;
@@ -72,30 +72,70 @@
             padding: 20px;
             flex: 1;
             background: #f1f3f4;
-        }
-        .content h2 {
-            font-size: 20px;
-            font-weight: normal;
-            margin-bottom: 50px;
-        }
-        .content h3 {
-            font-size: 24px;
-            font-weight: normal;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
 
+        .content h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        form {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+        }
+
+        form label {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        form input[type="file"] {
+            margin-bottom: 20px;
+            padding: 5px;
+        }
+
+        form button {
+            padding: 10px 20px;
+            background: #f5b451;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        form button:hover {
+            background: #e09e3e;
+        }
+
+        #message {
+            margin-top: 20px;
+            font-size: 16px;
+            color: red;
+        }
     </style>
 </head>
 <body>
+
 <div class="container">
     <!-- Sidebar -->
     <aside class="sidebar">
         <div class="logo">TUTORMATE</div>
         <div class="login-text">Student Login</div>
         <nav class="nav">
-            <a th:href="@{/student/studentDashboard}" >Dashboard</a>
+            <a th:href="@{/student/studentDashboard}">Dashboard</a>
             <a th:href="@{/student/studentclasses}">Classes</a>
-            <a class="active">Payment Info</a>
-            <a th:href="@{/student/studentprofile}" >My Profile</a>
+            <a class="active">Payment</a>
+            <a th:href="@{/student/studentbankInfo}">Bank Deposits Info</a>
+            <a th:href="@{/student/profile}">My Profile</a>
             <a th:href="@{/logout}">Logout</a>
         </nav>
     </aside>
@@ -103,25 +143,22 @@
     <!-- Main Content -->
     <main class="main-content">
         <header class="header">
-            <h1>Payment Details</h1>
+            <h1>Upload Payment Proof</h1>
         </header>
 
         <section class="content">
-            <div>
-                <h2>Do the payment for the following bank account as a bank deposit and then send the payment proof to our Finance manager via whatsapp through the number mentioned below.
-                    Please be advised that payment processing takes up to 24 hours, and upon verification, the admin will promptly assign you to your classes. </h2>
-                <h3>Account Details</h3>
-                <h3>Account Name: TUTORMATE</h3>
-                <h3>Account Number: 123456789</h3>
-                <h3>Bank: Peoples Bank</h3>
-                <h3>Whatsapp Number: 077 123 4567</h3>
-            </div>
+            <h2>Upload Your Payment Proof</h2>
 
-            <div class="profile-info" th:if="${error != null}">
-                <p th:text="${error}"></p>
-            </div>
+            <form id="paymentForm" action="http://localhost:8080/student/payment" method="POST" enctype="multipart/form-data">
+                <label for="paymentProof">Choose File</label>
+                <input type="file" id="paymentProof" name="paymentProof" accept="image/*, application/pdf" required>
+                <button type="submit">Submit Payment Proof</button>
+            </form>
+
+            <div id="message" th:if="${error != null}" th:text="${error}"></div> <!-- errors and upload status -->
         </section>
     </main>
 </div>
+
 </body>
 </html>
