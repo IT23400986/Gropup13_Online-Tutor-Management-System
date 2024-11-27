@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css?family=Lilita+One&display=swap" rel="stylesheet" />
-    <title>Upload Payment Proof</title>
+    <link rel="stylesheet" type="text/css" href="/css/dashboard.css">
+    <title>TUTORMATE | Upload Payment Proof</title>
     <style>
         body {
             font-family: 'Lilita One', sans-serif;
@@ -131,10 +132,10 @@
         <div class="logo">TUTORMATE</div>
         <div class="login-text">Student Login</div>
         <nav class="nav">
-            <a th:href="@{/student/studentDashboard}">Dashboard</a>
-            <a th:href="@{/student/studentclasses}">Classes</a>
+            <a th:href="@{/student/dashboard}">Dashboard</a>
+            <a th:href="@{/student/classes}">Classes</a>
             <a class="active">Payment</a>
-            <a th:href="@{/student/studentbankInfo}">Bank Deposits Info</a>
+            <a th:href="@{/student/bankinfo}">Bank Deposits Info</a>
             <a th:href="@{/student/profile}">My Profile</a>
             <a th:href="@{/logout}">Logout</a>
         </nav>

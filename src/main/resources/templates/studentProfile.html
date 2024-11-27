@@ -4,44 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css?family=Lilita+One&display=swap" rel="stylesheet" />
-    <title>User Profile</title>
-    <link rel="stylesheet" type="text/css" href="/css/Dashboard.css">
-    <style>
-        .profile-info {
-            justify-content: center;
-            padding: 20px;
-            border-radius: 10px;
-            background-color: rgba(255, 255, 255, 0.2);
-        }
-
-        .profile-info p {
-            font-size: 32px;
-            font-weight: normal;
-        }
-
-        .profile-info strong {
-            color: rgb(0, 0, 0);
-        }
-
-        .edit-button {
-            background-color: #f39c12;
-            color: white;
-            font-size: 18px;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            display: block;
-            margin-top: 20px;
-            width: 25%;
-            text-align: center;
-        }
-
-        .edit-button:hover {
-            background-color: #e67e22;
-        }
-
-    </style>
+    <title>TUTORMATE | User Profile</title>
+    <link rel="stylesheet" type="text/css" href="/css/dashboard.css">
 </head>
 <body>
     <div class="container">
@@ -50,9 +14,9 @@
             <div class="logo">TUTORMATE</div>
             <div class="login-text">Student Login</div>
             <nav class="nav">
-                <a th:href="@{/student/studentDashboard}" >Dashboard</a>
-                <a th:href="@{/student/studentclasses}">Classes</a>
-                <a th:href="@{/student/studentbankInfo}">Payment Info</a>
+                <a th:href="@{/student/dashboard}" >Dashboard</a>
+                <a th:href="@{/student/classes}">Classes</a>
+                <a th:href="@{/student/bankinfo}">Payment Info</a>
                 <a class="active">My Profile</a>
                 <a th:href="@{/logout}">Logout</a>
             </nav>
